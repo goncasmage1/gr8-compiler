@@ -1,0 +1,3325 @@
+   0  $accept : program $end
+
+   1  program : decl_chain
+
+   2  decl_chain : decl
+   3             | decl_chain decl
+   4             |
+
+   5  decl : var_decl
+   6       | access func_type tIDENTIFIER uses
+   7       | func_type tIDENTIFIER uses
+   8       | tDEFINE decl_access func_type tIDENTIFIER func_params tAS blockStart
+
+   9  var_decl : access type tIDENTIFIER initially
+  10           | type tIDENTIFIER initially
+
+  11  initially : tOPEN tINITIALLY expr tCLOSE
+  12            |
+
+  13  access : tPUBLIC
+  14         | tUSE
+
+  15  decl_access : tPUBLIC
+  16              |
+
+  17  func_type : type tFUNCTION
+  18            | tPROCEDURE
+
+  19  func_params : tON params
+  20              |
+
+  21  uses : tUSES params
+  22       |
+
+  23  params : variable
+  24         | params tCOMMA variable
+
+  25  variable : type tIDENTIFIER
+
+  26  type : small
+  27       | huge
+  28       | news
+
+  29  small : tSMALL
+  30        | tSMALL small_chain
+
+  31  small_chain : tSMALL small_chain
+  32              | tFAKE
+
+  33  huge : tHUGE
+  34       | tHUGE huge_chain
+
+  35  huge_chain : tHUGE huge_chain
+  36             | tFAKE
+
+  37  news : tFAKE news
+  38       | tNEWS
+
+  39  blockStart : tINSIDE var_chain list tOUTSIDE
+  40             | tINSIDE var_chain tOUTSIDE
+  41             | tINSIDE list tOUTSIDE
+
+  42  var_chain : var_decl
+  43            | var_chain var_decl
+
+  44  list : inst
+  45       | list inst
+
+  46  inst : expr
+  47       | tASSIGN expr tTO lval
+  48       | tTWEET expr
+  49       | tPOST expr
+  50       | tAGAIN tINTEGER
+  51       | tSTOP tINTEGER
+  52       | tAGAIN
+  53       | tSTOP
+  54       | tRETURN expr
+  55       | tIF expr tTHEN indent_list
+  56       | tIF expr tTHEN indent_list tELSE indent_list
+  57       | tIF expr tTHEN indent_list tELSIF elif
+  58       | tSWEEPING lval tFROM expr tTO expr sweepBy tDO indent_list
+  59       | tINPUT
+
+  60  indent_list : tINSIDE list tOUTSIDE
+
+  61  elif : expr tTHEN indent_list tELSIF elif
+  62       | expr tTHEN indent_list
+  63       | expr tTHEN indent_list tELSE indent_list
+
+  64  sweepBy : tBY expr
+  65          |
+
+  66  expr_chain : expr
+  67             | expr_chain tCOMMA expr
+
+  68  lval : tIDENTIFIER
+  69       | tCELL expr tAT lval
+  70       | tCELL expr tAT tOPEN expr tCLOSE
+
+  71  expr : tINTEGER
+  72       | tDOUBLE
+  73       | tNULL
+  74       | str_chain
+  75       | expr tBELOW expr
+  76       | expr tABOVE expr
+  77       | expr tEQUALS expr
+  78       | expr tAND expr
+  79       | expr tOR expr
+  80       | expr tTIMES expr
+  81       | expr tOVER expr
+  82       | expr tMODULUS expr
+  83       | expr tPLUS expr
+  84       | expr tMINUS expr
+  85       | tNOT expr
+  86       | tPLUS expr
+  87       | tMINUS expr
+  88       | tOPEN expr tCLOSE
+  89       | tUSE expr_chain tFOR tIDENTIFIER
+  90       | tDO tIDENTIFIER
+  91       | expr tOBJECTS
+  92       | lval tADDRESS
+  93       | lval
+
+  94  str_chain : tSTRING
+  95            | str_chain tSTRING
+
+0: shift/reduce conflict (shift 1, reduce 4) on tSMALL
+0: shift/reduce conflict (shift 2, reduce 4) on tHUGE
+0: shift/reduce conflict (shift 3, reduce 4) on tNEWS
+0: shift/reduce conflict (shift 4, reduce 4) on tFAKE
+0: shift/reduce conflict (shift 5, reduce 4) on tUSE
+0: shift/reduce conflict (shift 6, reduce 4) on tPUBLIC
+0: shift/reduce conflict (shift 7, reduce 4) on tDEFINE
+0: shift/reduce conflict (shift 8, reduce 4) on tPROCEDURE
+state 0
+	$accept : . program $end  (0)
+	decl_chain : .  (4)
+
+	tSMALL  shift 1
+	tHUGE  shift 2
+	tNEWS  shift 3
+	tFAKE  shift 4
+	tUSE  shift 5
+	tPUBLIC  shift 6
+	tDEFINE  shift 7
+	tPROCEDURE  shift 8
+	$end  reduce 4
+
+	program  goto 9
+	decl  goto 10
+	decl_chain  goto 11
+	type  goto 12
+	small  goto 13
+	huge  goto 14
+	news  goto 15
+	func_type  goto 16
+	access  goto 17
+	var_decl  goto 18
+
+
+state 1
+	small : tSMALL .  (29)
+	small : tSMALL . small_chain  (30)
+
+	tSMALL  shift 19
+	tFAKE  shift 20
+	tIDENTIFIER  reduce 29
+	tFUNCTION  reduce 29
+
+	small_chain  goto 21
+
+
+state 2
+	huge : tHUGE .  (33)
+	huge : tHUGE . huge_chain  (34)
+
+	tHUGE  shift 22
+	tFAKE  shift 23
+	tIDENTIFIER  reduce 33
+	tFUNCTION  reduce 33
+
+	huge_chain  goto 24
+
+
+state 3
+	news : tNEWS .  (38)
+
+	.  reduce 38
+
+
+state 4
+	news : tFAKE . news  (37)
+
+	tNEWS  shift 3
+	tFAKE  shift 4
+	.  error
+
+	news  goto 25
+
+
+state 5
+	access : tUSE .  (14)
+
+	.  reduce 14
+
+
+state 6
+	access : tPUBLIC .  (13)
+
+	.  reduce 13
+
+
+state 7
+	decl : tDEFINE . decl_access func_type tIDENTIFIER func_params tAS blockStart  (8)
+	decl_access : .  (16)
+
+	tPUBLIC  shift 26
+	tSMALL  reduce 16
+	tHUGE  reduce 16
+	tNEWS  reduce 16
+	tFAKE  reduce 16
+	tPROCEDURE  reduce 16
+
+	decl_access  goto 27
+
+
+state 8
+	func_type : tPROCEDURE .  (18)
+
+	.  reduce 18
+
+
+state 9
+	$accept : program . $end  (0)
+
+	$end  accept
+
+
+state 10
+	decl_chain : decl .  (2)
+
+	.  reduce 2
+
+
+state 11
+	program : decl_chain .  (1)
+	decl_chain : decl_chain . decl  (3)
+
+	tSMALL  shift 1
+	tHUGE  shift 2
+	tNEWS  shift 3
+	tFAKE  shift 4
+	tUSE  shift 5
+	tPUBLIC  shift 6
+	tDEFINE  shift 7
+	tPROCEDURE  shift 8
+	$end  reduce 1
+
+	decl  goto 28
+	type  goto 12
+	small  goto 13
+	huge  goto 14
+	news  goto 15
+	func_type  goto 16
+	access  goto 17
+	var_decl  goto 18
+
+
+state 12
+	var_decl : type . tIDENTIFIER initially  (10)
+	func_type : type . tFUNCTION  (17)
+
+	tIDENTIFIER  shift 29
+	tFUNCTION  shift 30
+	.  error
+
+
+state 13
+	type : small .  (26)
+
+	.  reduce 26
+
+
+state 14
+	type : huge .  (27)
+
+	.  reduce 27
+
+
+state 15
+	type : news .  (28)
+
+	.  reduce 28
+
+
+state 16
+	decl : func_type . tIDENTIFIER uses  (7)
+
+	tIDENTIFIER  shift 31
+	.  error
+
+
+state 17
+	decl : access . func_type tIDENTIFIER uses  (6)
+	var_decl : access . type tIDENTIFIER initially  (9)
+
+	tSMALL  shift 1
+	tHUGE  shift 2
+	tNEWS  shift 3
+	tFAKE  shift 4
+	tPROCEDURE  shift 8
+	.  error
+
+	type  goto 32
+	small  goto 13
+	huge  goto 14
+	news  goto 15
+	func_type  goto 33
+
+
+state 18
+	decl : var_decl .  (5)
+
+	.  reduce 5
+
+
+state 19
+	small_chain : tSMALL . small_chain  (31)
+
+	tSMALL  shift 19
+	tFAKE  shift 20
+	.  error
+
+	small_chain  goto 34
+
+
+state 20
+	small_chain : tFAKE .  (32)
+
+	.  reduce 32
+
+
+state 21
+	small : tSMALL small_chain .  (30)
+
+	.  reduce 30
+
+
+state 22
+	huge_chain : tHUGE . huge_chain  (35)
+
+	tHUGE  shift 22
+	tFAKE  shift 23
+	.  error
+
+	huge_chain  goto 35
+
+
+state 23
+	huge_chain : tFAKE .  (36)
+
+	.  reduce 36
+
+
+state 24
+	huge : tHUGE huge_chain .  (34)
+
+	.  reduce 34
+
+
+state 25
+	news : tFAKE news .  (37)
+
+	.  reduce 37
+
+
+state 26
+	decl_access : tPUBLIC .  (15)
+
+	.  reduce 15
+
+
+state 27
+	decl : tDEFINE decl_access . func_type tIDENTIFIER func_params tAS blockStart  (8)
+
+	tSMALL  shift 1
+	tHUGE  shift 2
+	tNEWS  shift 3
+	tFAKE  shift 4
+	tPROCEDURE  shift 8
+	.  error
+
+	type  goto 36
+	small  goto 13
+	huge  goto 14
+	news  goto 15
+	func_type  goto 37
+
+
+state 28
+	decl_chain : decl_chain decl .  (3)
+
+	.  reduce 3
+
+
+29: shift/reduce conflict (shift 38, reduce 12) on tOPEN
+state 29
+	var_decl : type tIDENTIFIER . initially  (10)
+	initially : .  (12)
+
+	tOPEN  shift 38
+	$end  reduce 12
+	tINTEGER  reduce 12
+	tDOUBLE  reduce 12
+	tIDENTIFIER  reduce 12
+	tSTRING  reduce 12
+	tIF  reduce 12
+	tSMALL  reduce 12
+	tHUGE  reduce 12
+	tNEWS  reduce 12
+	tFAKE  reduce 12
+	tNULL  reduce 12
+	tUSE  reduce 12
+	tPUBLIC  reduce 12
+	tDEFINE  reduce 12
+	tPROCEDURE  reduce 12
+	tDO  reduce 12
+	tRETURN  reduce 12
+	tASSIGN  reduce 12
+	tCELL  reduce 12
+	tINPUT  reduce 12
+	tSTOP  reduce 12
+	tAGAIN  reduce 12
+	tPOST  reduce 12
+	tTWEET  reduce 12
+	tSWEEPING  reduce 12
+	tOUTSIDE  reduce 12
+	tNOT  reduce 12
+	tPLUS  reduce 12
+	tMINUS  reduce 12
+
+	initially  goto 39
+
+
+state 30
+	func_type : type tFUNCTION .  (17)
+
+	.  reduce 17
+
+
+state 31
+	decl : func_type tIDENTIFIER . uses  (7)
+	uses : .  (22)
+
+	tUSES  shift 40
+	$end  reduce 22
+	tSMALL  reduce 22
+	tHUGE  reduce 22
+	tNEWS  reduce 22
+	tFAKE  reduce 22
+	tUSE  reduce 22
+	tPUBLIC  reduce 22
+	tDEFINE  reduce 22
+	tPROCEDURE  reduce 22
+
+	uses  goto 41
+
+
+state 32
+	var_decl : access type . tIDENTIFIER initially  (9)
+	func_type : type . tFUNCTION  (17)
+
+	tIDENTIFIER  shift 42
+	tFUNCTION  shift 30
+	.  error
+
+
+state 33
+	decl : access func_type . tIDENTIFIER uses  (6)
+
+	tIDENTIFIER  shift 43
+	.  error
+
+
+state 34
+	small_chain : tSMALL small_chain .  (31)
+
+	.  reduce 31
+
+
+state 35
+	huge_chain : tHUGE huge_chain .  (35)
+
+	.  reduce 35
+
+
+state 36
+	func_type : type . tFUNCTION  (17)
+
+	tFUNCTION  shift 30
+	.  error
+
+
+state 37
+	decl : tDEFINE decl_access func_type . tIDENTIFIER func_params tAS blockStart  (8)
+
+	tIDENTIFIER  shift 44
+	.  error
+
+
+state 38
+	initially : tOPEN . tINITIALLY expr tCLOSE  (11)
+
+	tINITIALLY  shift 45
+	.  error
+
+
+state 39
+	var_decl : type tIDENTIFIER initially .  (10)
+
+	.  reduce 10
+
+
+state 40
+	uses : tUSES . params  (21)
+
+	tSMALL  shift 1
+	tHUGE  shift 2
+	tNEWS  shift 3
+	tFAKE  shift 4
+	.  error
+
+	params  goto 46
+	type  goto 47
+	small  goto 13
+	huge  goto 14
+	news  goto 15
+	variable  goto 48
+
+
+state 41
+	decl : func_type tIDENTIFIER uses .  (7)
+
+	.  reduce 7
+
+
+42: shift/reduce conflict (shift 38, reduce 12) on tOPEN
+state 42
+	var_decl : access type tIDENTIFIER . initially  (9)
+	initially : .  (12)
+
+	tOPEN  shift 38
+	$end  reduce 12
+	tINTEGER  reduce 12
+	tDOUBLE  reduce 12
+	tIDENTIFIER  reduce 12
+	tSTRING  reduce 12
+	tIF  reduce 12
+	tSMALL  reduce 12
+	tHUGE  reduce 12
+	tNEWS  reduce 12
+	tFAKE  reduce 12
+	tNULL  reduce 12
+	tUSE  reduce 12
+	tPUBLIC  reduce 12
+	tDEFINE  reduce 12
+	tPROCEDURE  reduce 12
+	tDO  reduce 12
+	tRETURN  reduce 12
+	tASSIGN  reduce 12
+	tCELL  reduce 12
+	tINPUT  reduce 12
+	tSTOP  reduce 12
+	tAGAIN  reduce 12
+	tPOST  reduce 12
+	tTWEET  reduce 12
+	tSWEEPING  reduce 12
+	tOUTSIDE  reduce 12
+	tNOT  reduce 12
+	tPLUS  reduce 12
+	tMINUS  reduce 12
+
+	initially  goto 49
+
+
+state 43
+	decl : access func_type tIDENTIFIER . uses  (6)
+	uses : .  (22)
+
+	tUSES  shift 40
+	$end  reduce 22
+	tSMALL  reduce 22
+	tHUGE  reduce 22
+	tNEWS  reduce 22
+	tFAKE  reduce 22
+	tUSE  reduce 22
+	tPUBLIC  reduce 22
+	tDEFINE  reduce 22
+	tPROCEDURE  reduce 22
+
+	uses  goto 50
+
+
+state 44
+	decl : tDEFINE decl_access func_type tIDENTIFIER . func_params tAS blockStart  (8)
+	func_params : .  (20)
+
+	tON  shift 51
+	tAS  reduce 20
+
+	func_params  goto 52
+
+
+state 45
+	initially : tOPEN tINITIALLY . expr tCLOSE  (11)
+
+	tINTEGER  shift 53
+	tDOUBLE  shift 54
+	tIDENTIFIER  shift 55
+	tSTRING  shift 56
+	tNULL  shift 57
+	tUSE  shift 58
+	tDO  shift 59
+	tCELL  shift 60
+	tOPEN  shift 61
+	tNOT  shift 62
+	tPLUS  shift 63
+	tMINUS  shift 64
+	.  error
+
+	expr  goto 65
+	lval  goto 66
+	str_chain  goto 67
+
+
+state 46
+	uses : tUSES params .  (21)
+	params : params . tCOMMA variable  (24)
+
+	tCOMMA  shift 68
+	$end  reduce 21
+	tSMALL  reduce 21
+	tHUGE  reduce 21
+	tNEWS  reduce 21
+	tFAKE  reduce 21
+	tUSE  reduce 21
+	tPUBLIC  reduce 21
+	tDEFINE  reduce 21
+	tPROCEDURE  reduce 21
+
+
+state 47
+	variable : type . tIDENTIFIER  (25)
+
+	tIDENTIFIER  shift 69
+	.  error
+
+
+state 48
+	params : variable .  (23)
+
+	.  reduce 23
+
+
+state 49
+	var_decl : access type tIDENTIFIER initially .  (9)
+
+	.  reduce 9
+
+
+state 50
+	decl : access func_type tIDENTIFIER uses .  (6)
+
+	.  reduce 6
+
+
+state 51
+	func_params : tON . params  (19)
+
+	tSMALL  shift 1
+	tHUGE  shift 2
+	tNEWS  shift 3
+	tFAKE  shift 4
+	.  error
+
+	params  goto 70
+	type  goto 47
+	small  goto 13
+	huge  goto 14
+	news  goto 15
+	variable  goto 48
+
+
+state 52
+	decl : tDEFINE decl_access func_type tIDENTIFIER func_params . tAS blockStart  (8)
+
+	tAS  shift 71
+	.  error
+
+
+state 53
+	expr : tINTEGER .  (71)
+
+	.  reduce 71
+
+
+state 54
+	expr : tDOUBLE .  (72)
+
+	.  reduce 72
+
+
+state 55
+	lval : tIDENTIFIER .  (68)
+
+	.  reduce 68
+
+
+state 56
+	str_chain : tSTRING .  (94)
+
+	.  reduce 94
+
+
+state 57
+	expr : tNULL .  (73)
+
+	.  reduce 73
+
+
+state 58
+	expr : tUSE . expr_chain tFOR tIDENTIFIER  (89)
+
+	tINTEGER  shift 53
+	tDOUBLE  shift 54
+	tIDENTIFIER  shift 55
+	tSTRING  shift 56
+	tNULL  shift 57
+	tUSE  shift 58
+	tDO  shift 59
+	tCELL  shift 60
+	tOPEN  shift 61
+	tNOT  shift 62
+	tPLUS  shift 63
+	tMINUS  shift 64
+	.  error
+
+	expr_chain  goto 72
+	expr  goto 73
+	lval  goto 66
+	str_chain  goto 67
+
+
+state 59
+	expr : tDO . tIDENTIFIER  (90)
+
+	tIDENTIFIER  shift 74
+	.  error
+
+
+state 60
+	lval : tCELL . expr tAT lval  (69)
+	lval : tCELL . expr tAT tOPEN expr tCLOSE  (70)
+
+	tINTEGER  shift 53
+	tDOUBLE  shift 54
+	tIDENTIFIER  shift 55
+	tSTRING  shift 56
+	tNULL  shift 57
+	tUSE  shift 58
+	tDO  shift 59
+	tCELL  shift 60
+	tOPEN  shift 61
+	tNOT  shift 62
+	tPLUS  shift 63
+	tMINUS  shift 64
+	.  error
+
+	expr  goto 75
+	lval  goto 66
+	str_chain  goto 67
+
+
+state 61
+	expr : tOPEN . expr tCLOSE  (88)
+
+	tINTEGER  shift 53
+	tDOUBLE  shift 54
+	tIDENTIFIER  shift 55
+	tSTRING  shift 56
+	tNULL  shift 57
+	tUSE  shift 58
+	tDO  shift 59
+	tCELL  shift 60
+	tOPEN  shift 61
+	tNOT  shift 62
+	tPLUS  shift 63
+	tMINUS  shift 64
+	.  error
+
+	expr  goto 76
+	lval  goto 66
+	str_chain  goto 67
+
+
+state 62
+	expr : tNOT . expr  (85)
+
+	tINTEGER  shift 53
+	tDOUBLE  shift 54
+	tIDENTIFIER  shift 55
+	tSTRING  shift 56
+	tNULL  shift 57
+	tUSE  shift 58
+	tDO  shift 59
+	tCELL  shift 60
+	tOPEN  shift 61
+	tNOT  shift 62
+	tPLUS  shift 63
+	tMINUS  shift 64
+	.  error
+
+	expr  goto 77
+	lval  goto 66
+	str_chain  goto 67
+
+
+state 63
+	expr : tPLUS . expr  (86)
+
+	tINTEGER  shift 53
+	tDOUBLE  shift 54
+	tIDENTIFIER  shift 55
+	tSTRING  shift 56
+	tNULL  shift 57
+	tUSE  shift 58
+	tDO  shift 59
+	tCELL  shift 60
+	tOPEN  shift 61
+	tNOT  shift 62
+	tPLUS  shift 63
+	tMINUS  shift 64
+	.  error
+
+	expr  goto 78
+	lval  goto 66
+	str_chain  goto 67
+
+
+state 64
+	expr : tMINUS . expr  (87)
+
+	tINTEGER  shift 53
+	tDOUBLE  shift 54
+	tIDENTIFIER  shift 55
+	tSTRING  shift 56
+	tNULL  shift 57
+	tUSE  shift 58
+	tDO  shift 59
+	tCELL  shift 60
+	tOPEN  shift 61
+	tNOT  shift 62
+	tPLUS  shift 63
+	tMINUS  shift 64
+	.  error
+
+	expr  goto 79
+	lval  goto 66
+	str_chain  goto 67
+
+
+state 65
+	initially : tOPEN tINITIALLY expr . tCLOSE  (11)
+	expr : expr . tBELOW expr  (75)
+	expr : expr . tABOVE expr  (76)
+	expr : expr . tEQUALS expr  (77)
+	expr : expr . tAND expr  (78)
+	expr : expr . tOR expr  (79)
+	expr : expr . tTIMES expr  (80)
+	expr : expr . tOVER expr  (81)
+	expr : expr . tMODULUS expr  (82)
+	expr : expr . tPLUS expr  (83)
+	expr : expr . tMINUS expr  (84)
+	expr : expr . tOBJECTS  (91)
+
+	tOBJECTS  shift 80
+	tCLOSE  shift 81
+	tAND  shift 82
+	tOR  shift 83
+	tABOVE  shift 84
+	tBELOW  shift 85
+	tEQUALS  shift 86
+	tPLUS  shift 87
+	tMINUS  shift 88
+	tTIMES  shift 89
+	tOVER  shift 90
+	tMODULUS  shift 91
+	.  error
+
+
+state 66
+	expr : lval . tADDRESS  (92)
+	expr : lval .  (93)
+
+	tADDRESS  shift 92
+	tINTEGER  reduce 93
+	tDOUBLE  reduce 93
+	tIDENTIFIER  reduce 93
+	tSTRING  reduce 93
+	tIF  reduce 93
+	tTHEN  reduce 93
+	tNULL  reduce 93
+	tUSE  reduce 93
+	tDO  reduce 93
+	tFOR  reduce 93
+	tRETURN  reduce 93
+	tASSIGN  reduce 93
+	tCELL  reduce 93
+	tINPUT  reduce 93
+	tOBJECTS  reduce 93
+	tSTOP  reduce 93
+	tAGAIN  reduce 93
+	tPOST  reduce 93
+	tTWEET  reduce 93
+	tSWEEPING  reduce 93
+	tBY  reduce 93
+	tAT  reduce 93
+	tTO  reduce 93
+	tOUTSIDE  reduce 93
+	tCOMMA  reduce 93
+	tOPEN  reduce 93
+	tCLOSE  reduce 93
+	tNOT  reduce 93
+	tAND  reduce 93
+	tOR  reduce 93
+	tABOVE  reduce 93
+	tBELOW  reduce 93
+	tEQUALS  reduce 93
+	tPLUS  reduce 93
+	tMINUS  reduce 93
+	tTIMES  reduce 93
+	tOVER  reduce 93
+	tMODULUS  reduce 93
+
+
+67: shift/reduce conflict (shift 93, reduce 74) on tSTRING
+state 67
+	expr : str_chain .  (74)
+	str_chain : str_chain . tSTRING  (95)
+
+	tSTRING  shift 93
+	tINTEGER  reduce 74
+	tDOUBLE  reduce 74
+	tIDENTIFIER  reduce 74
+	tIF  reduce 74
+	tTHEN  reduce 74
+	tNULL  reduce 74
+	tUSE  reduce 74
+	tDO  reduce 74
+	tFOR  reduce 74
+	tRETURN  reduce 74
+	tASSIGN  reduce 74
+	tCELL  reduce 74
+	tINPUT  reduce 74
+	tOBJECTS  reduce 74
+	tSTOP  reduce 74
+	tAGAIN  reduce 74
+	tPOST  reduce 74
+	tTWEET  reduce 74
+	tSWEEPING  reduce 74
+	tBY  reduce 74
+	tAT  reduce 74
+	tTO  reduce 74
+	tOUTSIDE  reduce 74
+	tCOMMA  reduce 74
+	tOPEN  reduce 74
+	tCLOSE  reduce 74
+	tNOT  reduce 74
+	tAND  reduce 74
+	tOR  reduce 74
+	tABOVE  reduce 74
+	tBELOW  reduce 74
+	tEQUALS  reduce 74
+	tPLUS  reduce 74
+	tMINUS  reduce 74
+	tTIMES  reduce 74
+	tOVER  reduce 74
+	tMODULUS  reduce 74
+
+
+state 68
+	params : params tCOMMA . variable  (24)
+
+	tSMALL  shift 1
+	tHUGE  shift 2
+	tNEWS  shift 3
+	tFAKE  shift 4
+	.  error
+
+	type  goto 47
+	small  goto 13
+	huge  goto 14
+	news  goto 15
+	variable  goto 94
+
+
+state 69
+	variable : type tIDENTIFIER .  (25)
+
+	.  reduce 25
+
+
+state 70
+	func_params : tON params .  (19)
+	params : params . tCOMMA variable  (24)
+
+	tCOMMA  shift 68
+	tAS  reduce 19
+
+
+state 71
+	decl : tDEFINE decl_access func_type tIDENTIFIER func_params tAS . blockStart  (8)
+
+	tINSIDE  shift 95
+	.  error
+
+	blockStart  goto 96
+
+
+state 72
+	expr_chain : expr_chain . tCOMMA expr  (67)
+	expr : tUSE expr_chain . tFOR tIDENTIFIER  (89)
+
+	tFOR  shift 97
+	tCOMMA  shift 98
+	.  error
+
+
+state 73
+	expr_chain : expr .  (66)
+	expr : expr . tBELOW expr  (75)
+	expr : expr . tABOVE expr  (76)
+	expr : expr . tEQUALS expr  (77)
+	expr : expr . tAND expr  (78)
+	expr : expr . tOR expr  (79)
+	expr : expr . tTIMES expr  (80)
+	expr : expr . tOVER expr  (81)
+	expr : expr . tMODULUS expr  (82)
+	expr : expr . tPLUS expr  (83)
+	expr : expr . tMINUS expr  (84)
+	expr : expr . tOBJECTS  (91)
+
+	tOBJECTS  shift 80
+	tAND  shift 82
+	tOR  shift 83
+	tABOVE  shift 84
+	tBELOW  shift 85
+	tEQUALS  shift 86
+	tPLUS  shift 87
+	tMINUS  shift 88
+	tTIMES  shift 89
+	tOVER  shift 90
+	tMODULUS  shift 91
+	tFOR  reduce 66
+	tCOMMA  reduce 66
+
+
+state 74
+	expr : tDO tIDENTIFIER .  (90)
+
+	.  reduce 90
+
+
+state 75
+	lval : tCELL expr . tAT lval  (69)
+	lval : tCELL expr . tAT tOPEN expr tCLOSE  (70)
+	expr : expr . tBELOW expr  (75)
+	expr : expr . tABOVE expr  (76)
+	expr : expr . tEQUALS expr  (77)
+	expr : expr . tAND expr  (78)
+	expr : expr . tOR expr  (79)
+	expr : expr . tTIMES expr  (80)
+	expr : expr . tOVER expr  (81)
+	expr : expr . tMODULUS expr  (82)
+	expr : expr . tPLUS expr  (83)
+	expr : expr . tMINUS expr  (84)
+	expr : expr . tOBJECTS  (91)
+
+	tOBJECTS  shift 80
+	tAT  shift 99
+	tAND  shift 82
+	tOR  shift 83
+	tABOVE  shift 84
+	tBELOW  shift 85
+	tEQUALS  shift 86
+	tPLUS  shift 87
+	tMINUS  shift 88
+	tTIMES  shift 89
+	tOVER  shift 90
+	tMODULUS  shift 91
+	.  error
+
+
+state 76
+	expr : expr . tBELOW expr  (75)
+	expr : expr . tABOVE expr  (76)
+	expr : expr . tEQUALS expr  (77)
+	expr : expr . tAND expr  (78)
+	expr : expr . tOR expr  (79)
+	expr : expr . tTIMES expr  (80)
+	expr : expr . tOVER expr  (81)
+	expr : expr . tMODULUS expr  (82)
+	expr : expr . tPLUS expr  (83)
+	expr : expr . tMINUS expr  (84)
+	expr : tOPEN expr . tCLOSE  (88)
+	expr : expr . tOBJECTS  (91)
+
+	tOBJECTS  shift 80
+	tCLOSE  shift 100
+	tAND  shift 82
+	tOR  shift 83
+	tABOVE  shift 84
+	tBELOW  shift 85
+	tEQUALS  shift 86
+	tPLUS  shift 87
+	tMINUS  shift 88
+	tTIMES  shift 89
+	tOVER  shift 90
+	tMODULUS  shift 91
+	.  error
+
+
+state 77
+	expr : expr . tBELOW expr  (75)
+	expr : expr . tABOVE expr  (76)
+	expr : expr . tEQUALS expr  (77)
+	expr : expr . tAND expr  (78)
+	expr : expr . tOR expr  (79)
+	expr : expr . tTIMES expr  (80)
+	expr : expr . tOVER expr  (81)
+	expr : expr . tMODULUS expr  (82)
+	expr : expr . tPLUS expr  (83)
+	expr : expr . tMINUS expr  (84)
+	expr : tNOT expr .  (85)
+	expr : expr . tOBJECTS  (91)
+
+	tAND  shift 82
+	tOR  shift 83
+	tABOVE  shift 84
+	tBELOW  shift 85
+	tEQUALS  shift 86
+	tPLUS  shift 87
+	tMINUS  shift 88
+	tTIMES  shift 89
+	tOVER  shift 90
+	tMODULUS  shift 91
+	tINTEGER  reduce 85
+	tDOUBLE  reduce 85
+	tIDENTIFIER  reduce 85
+	tSTRING  reduce 85
+	tIF  reduce 85
+	tTHEN  reduce 85
+	tNULL  reduce 85
+	tUSE  reduce 85
+	tDO  reduce 85
+	tFOR  reduce 85
+	tRETURN  reduce 85
+	tASSIGN  reduce 85
+	tCELL  reduce 85
+	tINPUT  reduce 85
+	tSTOP  reduce 85
+	tAGAIN  reduce 85
+	tPOST  reduce 85
+	tTWEET  reduce 85
+	tSWEEPING  reduce 85
+	tBY  reduce 85
+	tAT  reduce 85
+	tTO  reduce 85
+	tOUTSIDE  reduce 85
+	tCOMMA  reduce 85
+	tOPEN  reduce 85
+	tCLOSE  reduce 85
+	tNOT  reduce 85
+
+
+state 78
+	expr : expr . tBELOW expr  (75)
+	expr : expr . tABOVE expr  (76)
+	expr : expr . tEQUALS expr  (77)
+	expr : expr . tAND expr  (78)
+	expr : expr . tOR expr  (79)
+	expr : expr . tTIMES expr  (80)
+	expr : expr . tOVER expr  (81)
+	expr : expr . tMODULUS expr  (82)
+	expr : expr . tPLUS expr  (83)
+	expr : expr . tMINUS expr  (84)
+	expr : tPLUS expr .  (86)
+	expr : expr . tOBJECTS  (91)
+
+	tAND  shift 82
+	tOR  shift 83
+	tABOVE  shift 84
+	tBELOW  shift 85
+	tEQUALS  shift 86
+	tPLUS  shift 87
+	tMINUS  shift 88
+	tTIMES  shift 89
+	tOVER  shift 90
+	tMODULUS  shift 91
+	tINTEGER  reduce 86
+	tDOUBLE  reduce 86
+	tIDENTIFIER  reduce 86
+	tSTRING  reduce 86
+	tIF  reduce 86
+	tTHEN  reduce 86
+	tNULL  reduce 86
+	tUSE  reduce 86
+	tDO  reduce 86
+	tFOR  reduce 86
+	tRETURN  reduce 86
+	tASSIGN  reduce 86
+	tCELL  reduce 86
+	tINPUT  reduce 86
+	tSTOP  reduce 86
+	tAGAIN  reduce 86
+	tPOST  reduce 86
+	tTWEET  reduce 86
+	tSWEEPING  reduce 86
+	tBY  reduce 86
+	tAT  reduce 86
+	tTO  reduce 86
+	tOUTSIDE  reduce 86
+	tCOMMA  reduce 86
+	tOPEN  reduce 86
+	tCLOSE  reduce 86
+	tNOT  reduce 86
+
+
+state 79
+	expr : expr . tBELOW expr  (75)
+	expr : expr . tABOVE expr  (76)
+	expr : expr . tEQUALS expr  (77)
+	expr : expr . tAND expr  (78)
+	expr : expr . tOR expr  (79)
+	expr : expr . tTIMES expr  (80)
+	expr : expr . tOVER expr  (81)
+	expr : expr . tMODULUS expr  (82)
+	expr : expr . tPLUS expr  (83)
+	expr : expr . tMINUS expr  (84)
+	expr : tMINUS expr .  (87)
+	expr : expr . tOBJECTS  (91)
+
+	tAND  shift 82
+	tOR  shift 83
+	tABOVE  shift 84
+	tBELOW  shift 85
+	tEQUALS  shift 86
+	tPLUS  shift 87
+	tMINUS  shift 88
+	tTIMES  shift 89
+	tOVER  shift 90
+	tMODULUS  shift 91
+	tINTEGER  reduce 87
+	tDOUBLE  reduce 87
+	tIDENTIFIER  reduce 87
+	tSTRING  reduce 87
+	tIF  reduce 87
+	tTHEN  reduce 87
+	tNULL  reduce 87
+	tUSE  reduce 87
+	tDO  reduce 87
+	tFOR  reduce 87
+	tRETURN  reduce 87
+	tASSIGN  reduce 87
+	tCELL  reduce 87
+	tINPUT  reduce 87
+	tSTOP  reduce 87
+	tAGAIN  reduce 87
+	tPOST  reduce 87
+	tTWEET  reduce 87
+	tSWEEPING  reduce 87
+	tBY  reduce 87
+	tAT  reduce 87
+	tTO  reduce 87
+	tOUTSIDE  reduce 87
+	tCOMMA  reduce 87
+	tOPEN  reduce 87
+	tCLOSE  reduce 87
+	tNOT  reduce 87
+
+
+state 80
+	expr : expr tOBJECTS .  (91)
+
+	.  reduce 91
+
+
+state 81
+	initially : tOPEN tINITIALLY expr tCLOSE .  (11)
+
+	.  reduce 11
+
+
+state 82
+	expr : expr tAND . expr  (78)
+
+	tINTEGER  shift 53
+	tDOUBLE  shift 54
+	tIDENTIFIER  shift 55
+	tSTRING  shift 56
+	tNULL  shift 57
+	tUSE  shift 58
+	tDO  shift 59
+	tCELL  shift 60
+	tOPEN  shift 61
+	tNOT  shift 62
+	tPLUS  shift 63
+	tMINUS  shift 64
+	.  error
+
+	expr  goto 101
+	lval  goto 66
+	str_chain  goto 67
+
+
+state 83
+	expr : expr tOR . expr  (79)
+
+	tINTEGER  shift 53
+	tDOUBLE  shift 54
+	tIDENTIFIER  shift 55
+	tSTRING  shift 56
+	tNULL  shift 57
+	tUSE  shift 58
+	tDO  shift 59
+	tCELL  shift 60
+	tOPEN  shift 61
+	tNOT  shift 62
+	tPLUS  shift 63
+	tMINUS  shift 64
+	.  error
+
+	expr  goto 102
+	lval  goto 66
+	str_chain  goto 67
+
+
+state 84
+	expr : expr tABOVE . expr  (76)
+
+	tINTEGER  shift 53
+	tDOUBLE  shift 54
+	tIDENTIFIER  shift 55
+	tSTRING  shift 56
+	tNULL  shift 57
+	tUSE  shift 58
+	tDO  shift 59
+	tCELL  shift 60
+	tOPEN  shift 61
+	tNOT  shift 62
+	tPLUS  shift 63
+	tMINUS  shift 64
+	.  error
+
+	expr  goto 103
+	lval  goto 66
+	str_chain  goto 67
+
+
+state 85
+	expr : expr tBELOW . expr  (75)
+
+	tINTEGER  shift 53
+	tDOUBLE  shift 54
+	tIDENTIFIER  shift 55
+	tSTRING  shift 56
+	tNULL  shift 57
+	tUSE  shift 58
+	tDO  shift 59
+	tCELL  shift 60
+	tOPEN  shift 61
+	tNOT  shift 62
+	tPLUS  shift 63
+	tMINUS  shift 64
+	.  error
+
+	expr  goto 104
+	lval  goto 66
+	str_chain  goto 67
+
+
+state 86
+	expr : expr tEQUALS . expr  (77)
+
+	tINTEGER  shift 53
+	tDOUBLE  shift 54
+	tIDENTIFIER  shift 55
+	tSTRING  shift 56
+	tNULL  shift 57
+	tUSE  shift 58
+	tDO  shift 59
+	tCELL  shift 60
+	tOPEN  shift 61
+	tNOT  shift 62
+	tPLUS  shift 63
+	tMINUS  shift 64
+	.  error
+
+	expr  goto 105
+	lval  goto 66
+	str_chain  goto 67
+
+
+state 87
+	expr : expr tPLUS . expr  (83)
+
+	tINTEGER  shift 53
+	tDOUBLE  shift 54
+	tIDENTIFIER  shift 55
+	tSTRING  shift 56
+	tNULL  shift 57
+	tUSE  shift 58
+	tDO  shift 59
+	tCELL  shift 60
+	tOPEN  shift 61
+	tNOT  shift 62
+	tPLUS  shift 63
+	tMINUS  shift 64
+	.  error
+
+	expr  goto 106
+	lval  goto 66
+	str_chain  goto 67
+
+
+state 88
+	expr : expr tMINUS . expr  (84)
+
+	tINTEGER  shift 53
+	tDOUBLE  shift 54
+	tIDENTIFIER  shift 55
+	tSTRING  shift 56
+	tNULL  shift 57
+	tUSE  shift 58
+	tDO  shift 59
+	tCELL  shift 60
+	tOPEN  shift 61
+	tNOT  shift 62
+	tPLUS  shift 63
+	tMINUS  shift 64
+	.  error
+
+	expr  goto 107
+	lval  goto 66
+	str_chain  goto 67
+
+
+state 89
+	expr : expr tTIMES . expr  (80)
+
+	tINTEGER  shift 53
+	tDOUBLE  shift 54
+	tIDENTIFIER  shift 55
+	tSTRING  shift 56
+	tNULL  shift 57
+	tUSE  shift 58
+	tDO  shift 59
+	tCELL  shift 60
+	tOPEN  shift 61
+	tNOT  shift 62
+	tPLUS  shift 63
+	tMINUS  shift 64
+	.  error
+
+	expr  goto 108
+	lval  goto 66
+	str_chain  goto 67
+
+
+state 90
+	expr : expr tOVER . expr  (81)
+
+	tINTEGER  shift 53
+	tDOUBLE  shift 54
+	tIDENTIFIER  shift 55
+	tSTRING  shift 56
+	tNULL  shift 57
+	tUSE  shift 58
+	tDO  shift 59
+	tCELL  shift 60
+	tOPEN  shift 61
+	tNOT  shift 62
+	tPLUS  shift 63
+	tMINUS  shift 64
+	.  error
+
+	expr  goto 109
+	lval  goto 66
+	str_chain  goto 67
+
+
+state 91
+	expr : expr tMODULUS . expr  (82)
+
+	tINTEGER  shift 53
+	tDOUBLE  shift 54
+	tIDENTIFIER  shift 55
+	tSTRING  shift 56
+	tNULL  shift 57
+	tUSE  shift 58
+	tDO  shift 59
+	tCELL  shift 60
+	tOPEN  shift 61
+	tNOT  shift 62
+	tPLUS  shift 63
+	tMINUS  shift 64
+	.  error
+
+	expr  goto 110
+	lval  goto 66
+	str_chain  goto 67
+
+
+state 92
+	expr : lval tADDRESS .  (92)
+
+	.  reduce 92
+
+
+state 93
+	str_chain : str_chain tSTRING .  (95)
+
+	.  reduce 95
+
+
+state 94
+	params : params tCOMMA variable .  (24)
+
+	.  reduce 24
+
+
+state 95
+	blockStart : tINSIDE . var_chain list tOUTSIDE  (39)
+	blockStart : tINSIDE . var_chain tOUTSIDE  (40)
+	blockStart : tINSIDE . list tOUTSIDE  (41)
+
+	tINTEGER  shift 53
+	tDOUBLE  shift 54
+	tIDENTIFIER  shift 55
+	tSTRING  shift 56
+	tIF  shift 111
+	tSMALL  shift 1
+	tHUGE  shift 2
+	tNEWS  shift 3
+	tFAKE  shift 4
+	tNULL  shift 57
+	tUSE  shift 112
+	tPUBLIC  shift 6
+	tDO  shift 59
+	tRETURN  shift 113
+	tASSIGN  shift 114
+	tCELL  shift 60
+	tINPUT  shift 115
+	tSTOP  shift 116
+	tAGAIN  shift 117
+	tPOST  shift 118
+	tTWEET  shift 119
+	tSWEEPING  shift 120
+	tOPEN  shift 61
+	tNOT  shift 62
+	tPLUS  shift 63
+	tMINUS  shift 64
+	.  error
+
+	inst  goto 121
+	list  goto 122
+	var_chain  goto 123
+	expr  goto 124
+	lval  goto 66
+	type  goto 125
+	small  goto 13
+	huge  goto 14
+	news  goto 15
+	access  goto 126
+	var_decl  goto 127
+	str_chain  goto 67
+
+
+state 96
+	decl : tDEFINE decl_access func_type tIDENTIFIER func_params tAS blockStart .  (8)
+
+	.  reduce 8
+
+
+state 97
+	expr : tUSE expr_chain tFOR . tIDENTIFIER  (89)
+
+	tIDENTIFIER  shift 128
+	.  error
+
+
+state 98
+	expr_chain : expr_chain tCOMMA . expr  (67)
+
+	tINTEGER  shift 53
+	tDOUBLE  shift 54
+	tIDENTIFIER  shift 55
+	tSTRING  shift 56
+	tNULL  shift 57
+	tUSE  shift 58
+	tDO  shift 59
+	tCELL  shift 60
+	tOPEN  shift 61
+	tNOT  shift 62
+	tPLUS  shift 63
+	tMINUS  shift 64
+	.  error
+
+	expr  goto 129
+	lval  goto 66
+	str_chain  goto 67
+
+
+state 99
+	lval : tCELL expr tAT . lval  (69)
+	lval : tCELL expr tAT . tOPEN expr tCLOSE  (70)
+
+	tIDENTIFIER  shift 55
+	tCELL  shift 60
+	tOPEN  shift 130
+	.  error
+
+	lval  goto 131
+
+
+state 100
+	expr : tOPEN expr tCLOSE .  (88)
+
+	.  reduce 88
+
+
+state 101
+	expr : expr . tBELOW expr  (75)
+	expr : expr . tABOVE expr  (76)
+	expr : expr . tEQUALS expr  (77)
+	expr : expr . tAND expr  (78)
+	expr : expr tAND expr .  (78)
+	expr : expr . tOR expr  (79)
+	expr : expr . tTIMES expr  (80)
+	expr : expr . tOVER expr  (81)
+	expr : expr . tMODULUS expr  (82)
+	expr : expr . tPLUS expr  (83)
+	expr : expr . tMINUS expr  (84)
+	expr : expr . tOBJECTS  (91)
+
+	tABOVE  shift 84
+	tBELOW  shift 85
+	tEQUALS  shift 86
+	tPLUS  shift 87
+	tMINUS  shift 88
+	tTIMES  shift 89
+	tOVER  shift 90
+	tMODULUS  shift 91
+	tINTEGER  reduce 78
+	tDOUBLE  reduce 78
+	tIDENTIFIER  reduce 78
+	tSTRING  reduce 78
+	tIF  reduce 78
+	tTHEN  reduce 78
+	tNULL  reduce 78
+	tUSE  reduce 78
+	tDO  reduce 78
+	tFOR  reduce 78
+	tRETURN  reduce 78
+	tASSIGN  reduce 78
+	tCELL  reduce 78
+	tINPUT  reduce 78
+	tOBJECTS  reduce 78
+	tSTOP  reduce 78
+	tAGAIN  reduce 78
+	tPOST  reduce 78
+	tTWEET  reduce 78
+	tSWEEPING  reduce 78
+	tBY  reduce 78
+	tAT  reduce 78
+	tTO  reduce 78
+	tOUTSIDE  reduce 78
+	tCOMMA  reduce 78
+	tOPEN  reduce 78
+	tCLOSE  reduce 78
+	tNOT  reduce 78
+	tAND  reduce 78
+	tOR  reduce 78
+
+
+state 102
+	expr : expr . tBELOW expr  (75)
+	expr : expr . tABOVE expr  (76)
+	expr : expr . tEQUALS expr  (77)
+	expr : expr . tAND expr  (78)
+	expr : expr . tOR expr  (79)
+	expr : expr tOR expr .  (79)
+	expr : expr . tTIMES expr  (80)
+	expr : expr . tOVER expr  (81)
+	expr : expr . tMODULUS expr  (82)
+	expr : expr . tPLUS expr  (83)
+	expr : expr . tMINUS expr  (84)
+	expr : expr . tOBJECTS  (91)
+
+	tABOVE  shift 84
+	tBELOW  shift 85
+	tEQUALS  shift 86
+	tPLUS  shift 87
+	tMINUS  shift 88
+	tTIMES  shift 89
+	tOVER  shift 90
+	tMODULUS  shift 91
+	tINTEGER  reduce 79
+	tDOUBLE  reduce 79
+	tIDENTIFIER  reduce 79
+	tSTRING  reduce 79
+	tIF  reduce 79
+	tTHEN  reduce 79
+	tNULL  reduce 79
+	tUSE  reduce 79
+	tDO  reduce 79
+	tFOR  reduce 79
+	tRETURN  reduce 79
+	tASSIGN  reduce 79
+	tCELL  reduce 79
+	tINPUT  reduce 79
+	tOBJECTS  reduce 79
+	tSTOP  reduce 79
+	tAGAIN  reduce 79
+	tPOST  reduce 79
+	tTWEET  reduce 79
+	tSWEEPING  reduce 79
+	tBY  reduce 79
+	tAT  reduce 79
+	tTO  reduce 79
+	tOUTSIDE  reduce 79
+	tCOMMA  reduce 79
+	tOPEN  reduce 79
+	tCLOSE  reduce 79
+	tNOT  reduce 79
+	tAND  reduce 79
+	tOR  reduce 79
+
+
+state 103
+	expr : expr . tBELOW expr  (75)
+	expr : expr . tABOVE expr  (76)
+	expr : expr tABOVE expr .  (76)
+	expr : expr . tEQUALS expr  (77)
+	expr : expr . tAND expr  (78)
+	expr : expr . tOR expr  (79)
+	expr : expr . tTIMES expr  (80)
+	expr : expr . tOVER expr  (81)
+	expr : expr . tMODULUS expr  (82)
+	expr : expr . tPLUS expr  (83)
+	expr : expr . tMINUS expr  (84)
+	expr : expr . tOBJECTS  (91)
+
+	tPLUS  shift 87
+	tMINUS  shift 88
+	tTIMES  shift 89
+	tOVER  shift 90
+	tMODULUS  shift 91
+	tINTEGER  reduce 76
+	tDOUBLE  reduce 76
+	tIDENTIFIER  reduce 76
+	tSTRING  reduce 76
+	tIF  reduce 76
+	tTHEN  reduce 76
+	tNULL  reduce 76
+	tUSE  reduce 76
+	tDO  reduce 76
+	tFOR  reduce 76
+	tRETURN  reduce 76
+	tASSIGN  reduce 76
+	tCELL  reduce 76
+	tINPUT  reduce 76
+	tOBJECTS  reduce 76
+	tSTOP  reduce 76
+	tAGAIN  reduce 76
+	tPOST  reduce 76
+	tTWEET  reduce 76
+	tSWEEPING  reduce 76
+	tBY  reduce 76
+	tAT  reduce 76
+	tTO  reduce 76
+	tOUTSIDE  reduce 76
+	tCOMMA  reduce 76
+	tOPEN  reduce 76
+	tCLOSE  reduce 76
+	tNOT  reduce 76
+	tAND  reduce 76
+	tOR  reduce 76
+	tABOVE  reduce 76
+	tBELOW  reduce 76
+	tEQUALS  reduce 76
+
+
+state 104
+	expr : expr . tBELOW expr  (75)
+	expr : expr tBELOW expr .  (75)
+	expr : expr . tABOVE expr  (76)
+	expr : expr . tEQUALS expr  (77)
+	expr : expr . tAND expr  (78)
+	expr : expr . tOR expr  (79)
+	expr : expr . tTIMES expr  (80)
+	expr : expr . tOVER expr  (81)
+	expr : expr . tMODULUS expr  (82)
+	expr : expr . tPLUS expr  (83)
+	expr : expr . tMINUS expr  (84)
+	expr : expr . tOBJECTS  (91)
+
+	tPLUS  shift 87
+	tMINUS  shift 88
+	tTIMES  shift 89
+	tOVER  shift 90
+	tMODULUS  shift 91
+	tINTEGER  reduce 75
+	tDOUBLE  reduce 75
+	tIDENTIFIER  reduce 75
+	tSTRING  reduce 75
+	tIF  reduce 75
+	tTHEN  reduce 75
+	tNULL  reduce 75
+	tUSE  reduce 75
+	tDO  reduce 75
+	tFOR  reduce 75
+	tRETURN  reduce 75
+	tASSIGN  reduce 75
+	tCELL  reduce 75
+	tINPUT  reduce 75
+	tOBJECTS  reduce 75
+	tSTOP  reduce 75
+	tAGAIN  reduce 75
+	tPOST  reduce 75
+	tTWEET  reduce 75
+	tSWEEPING  reduce 75
+	tBY  reduce 75
+	tAT  reduce 75
+	tTO  reduce 75
+	tOUTSIDE  reduce 75
+	tCOMMA  reduce 75
+	tOPEN  reduce 75
+	tCLOSE  reduce 75
+	tNOT  reduce 75
+	tAND  reduce 75
+	tOR  reduce 75
+	tABOVE  reduce 75
+	tBELOW  reduce 75
+	tEQUALS  reduce 75
+
+
+state 105
+	expr : expr . tBELOW expr  (75)
+	expr : expr . tABOVE expr  (76)
+	expr : expr . tEQUALS expr  (77)
+	expr : expr tEQUALS expr .  (77)
+	expr : expr . tAND expr  (78)
+	expr : expr . tOR expr  (79)
+	expr : expr . tTIMES expr  (80)
+	expr : expr . tOVER expr  (81)
+	expr : expr . tMODULUS expr  (82)
+	expr : expr . tPLUS expr  (83)
+	expr : expr . tMINUS expr  (84)
+	expr : expr . tOBJECTS  (91)
+
+	tPLUS  shift 87
+	tMINUS  shift 88
+	tTIMES  shift 89
+	tOVER  shift 90
+	tMODULUS  shift 91
+	tINTEGER  reduce 77
+	tDOUBLE  reduce 77
+	tIDENTIFIER  reduce 77
+	tSTRING  reduce 77
+	tIF  reduce 77
+	tTHEN  reduce 77
+	tNULL  reduce 77
+	tUSE  reduce 77
+	tDO  reduce 77
+	tFOR  reduce 77
+	tRETURN  reduce 77
+	tASSIGN  reduce 77
+	tCELL  reduce 77
+	tINPUT  reduce 77
+	tOBJECTS  reduce 77
+	tSTOP  reduce 77
+	tAGAIN  reduce 77
+	tPOST  reduce 77
+	tTWEET  reduce 77
+	tSWEEPING  reduce 77
+	tBY  reduce 77
+	tAT  reduce 77
+	tTO  reduce 77
+	tOUTSIDE  reduce 77
+	tCOMMA  reduce 77
+	tOPEN  reduce 77
+	tCLOSE  reduce 77
+	tNOT  reduce 77
+	tAND  reduce 77
+	tOR  reduce 77
+	tABOVE  reduce 77
+	tBELOW  reduce 77
+	tEQUALS  reduce 77
+
+
+state 106
+	expr : expr . tBELOW expr  (75)
+	expr : expr . tABOVE expr  (76)
+	expr : expr . tEQUALS expr  (77)
+	expr : expr . tAND expr  (78)
+	expr : expr . tOR expr  (79)
+	expr : expr . tTIMES expr  (80)
+	expr : expr . tOVER expr  (81)
+	expr : expr . tMODULUS expr  (82)
+	expr : expr . tPLUS expr  (83)
+	expr : expr tPLUS expr .  (83)
+	expr : expr . tMINUS expr  (84)
+	expr : expr . tOBJECTS  (91)
+
+	tTIMES  shift 89
+	tOVER  shift 90
+	tMODULUS  shift 91
+	tINTEGER  reduce 83
+	tDOUBLE  reduce 83
+	tIDENTIFIER  reduce 83
+	tSTRING  reduce 83
+	tIF  reduce 83
+	tTHEN  reduce 83
+	tNULL  reduce 83
+	tUSE  reduce 83
+	tDO  reduce 83
+	tFOR  reduce 83
+	tRETURN  reduce 83
+	tASSIGN  reduce 83
+	tCELL  reduce 83
+	tINPUT  reduce 83
+	tOBJECTS  reduce 83
+	tSTOP  reduce 83
+	tAGAIN  reduce 83
+	tPOST  reduce 83
+	tTWEET  reduce 83
+	tSWEEPING  reduce 83
+	tBY  reduce 83
+	tAT  reduce 83
+	tTO  reduce 83
+	tOUTSIDE  reduce 83
+	tCOMMA  reduce 83
+	tOPEN  reduce 83
+	tCLOSE  reduce 83
+	tNOT  reduce 83
+	tAND  reduce 83
+	tOR  reduce 83
+	tABOVE  reduce 83
+	tBELOW  reduce 83
+	tEQUALS  reduce 83
+	tPLUS  reduce 83
+	tMINUS  reduce 83
+
+
+state 107
+	expr : expr . tBELOW expr  (75)
+	expr : expr . tABOVE expr  (76)
+	expr : expr . tEQUALS expr  (77)
+	expr : expr . tAND expr  (78)
+	expr : expr . tOR expr  (79)
+	expr : expr . tTIMES expr  (80)
+	expr : expr . tOVER expr  (81)
+	expr : expr . tMODULUS expr  (82)
+	expr : expr . tPLUS expr  (83)
+	expr : expr . tMINUS expr  (84)
+	expr : expr tMINUS expr .  (84)
+	expr : expr . tOBJECTS  (91)
+
+	tTIMES  shift 89
+	tOVER  shift 90
+	tMODULUS  shift 91
+	tINTEGER  reduce 84
+	tDOUBLE  reduce 84
+	tIDENTIFIER  reduce 84
+	tSTRING  reduce 84
+	tIF  reduce 84
+	tTHEN  reduce 84
+	tNULL  reduce 84
+	tUSE  reduce 84
+	tDO  reduce 84
+	tFOR  reduce 84
+	tRETURN  reduce 84
+	tASSIGN  reduce 84
+	tCELL  reduce 84
+	tINPUT  reduce 84
+	tOBJECTS  reduce 84
+	tSTOP  reduce 84
+	tAGAIN  reduce 84
+	tPOST  reduce 84
+	tTWEET  reduce 84
+	tSWEEPING  reduce 84
+	tBY  reduce 84
+	tAT  reduce 84
+	tTO  reduce 84
+	tOUTSIDE  reduce 84
+	tCOMMA  reduce 84
+	tOPEN  reduce 84
+	tCLOSE  reduce 84
+	tNOT  reduce 84
+	tAND  reduce 84
+	tOR  reduce 84
+	tABOVE  reduce 84
+	tBELOW  reduce 84
+	tEQUALS  reduce 84
+	tPLUS  reduce 84
+	tMINUS  reduce 84
+
+
+state 108
+	expr : expr . tBELOW expr  (75)
+	expr : expr . tABOVE expr  (76)
+	expr : expr . tEQUALS expr  (77)
+	expr : expr . tAND expr  (78)
+	expr : expr . tOR expr  (79)
+	expr : expr . tTIMES expr  (80)
+	expr : expr tTIMES expr .  (80)
+	expr : expr . tOVER expr  (81)
+	expr : expr . tMODULUS expr  (82)
+	expr : expr . tPLUS expr  (83)
+	expr : expr . tMINUS expr  (84)
+	expr : expr . tOBJECTS  (91)
+
+	.  reduce 80
+
+
+state 109
+	expr : expr . tBELOW expr  (75)
+	expr : expr . tABOVE expr  (76)
+	expr : expr . tEQUALS expr  (77)
+	expr : expr . tAND expr  (78)
+	expr : expr . tOR expr  (79)
+	expr : expr . tTIMES expr  (80)
+	expr : expr . tOVER expr  (81)
+	expr : expr tOVER expr .  (81)
+	expr : expr . tMODULUS expr  (82)
+	expr : expr . tPLUS expr  (83)
+	expr : expr . tMINUS expr  (84)
+	expr : expr . tOBJECTS  (91)
+
+	.  reduce 81
+
+
+state 110
+	expr : expr . tBELOW expr  (75)
+	expr : expr . tABOVE expr  (76)
+	expr : expr . tEQUALS expr  (77)
+	expr : expr . tAND expr  (78)
+	expr : expr . tOR expr  (79)
+	expr : expr . tTIMES expr  (80)
+	expr : expr . tOVER expr  (81)
+	expr : expr . tMODULUS expr  (82)
+	expr : expr tMODULUS expr .  (82)
+	expr : expr . tPLUS expr  (83)
+	expr : expr . tMINUS expr  (84)
+	expr : expr . tOBJECTS  (91)
+
+	.  reduce 82
+
+
+state 111
+	inst : tIF . expr tTHEN indent_list  (55)
+	inst : tIF . expr tTHEN indent_list tELSE indent_list  (56)
+	inst : tIF . expr tTHEN indent_list tELSIF elif  (57)
+
+	tINTEGER  shift 53
+	tDOUBLE  shift 54
+	tIDENTIFIER  shift 55
+	tSTRING  shift 56
+	tNULL  shift 57
+	tUSE  shift 58
+	tDO  shift 59
+	tCELL  shift 60
+	tOPEN  shift 61
+	tNOT  shift 62
+	tPLUS  shift 63
+	tMINUS  shift 64
+	.  error
+
+	expr  goto 132
+	lval  goto 66
+	str_chain  goto 67
+
+
+state 112
+	access : tUSE .  (14)
+	expr : tUSE . expr_chain tFOR tIDENTIFIER  (89)
+
+	tINTEGER  shift 53
+	tDOUBLE  shift 54
+	tIDENTIFIER  shift 55
+	tSTRING  shift 56
+	tNULL  shift 57
+	tUSE  shift 58
+	tDO  shift 59
+	tCELL  shift 60
+	tOPEN  shift 61
+	tNOT  shift 62
+	tPLUS  shift 63
+	tMINUS  shift 64
+	tSMALL  reduce 14
+	tHUGE  reduce 14
+	tNEWS  reduce 14
+	tFAKE  reduce 14
+
+	expr_chain  goto 72
+	expr  goto 73
+	lval  goto 66
+	str_chain  goto 67
+
+
+state 113
+	inst : tRETURN . expr  (54)
+
+	tINTEGER  shift 53
+	tDOUBLE  shift 54
+	tIDENTIFIER  shift 55
+	tSTRING  shift 56
+	tNULL  shift 57
+	tUSE  shift 58
+	tDO  shift 59
+	tCELL  shift 60
+	tOPEN  shift 61
+	tNOT  shift 62
+	tPLUS  shift 63
+	tMINUS  shift 64
+	.  error
+
+	expr  goto 133
+	lval  goto 66
+	str_chain  goto 67
+
+
+state 114
+	inst : tASSIGN . expr tTO lval  (47)
+
+	tINTEGER  shift 53
+	tDOUBLE  shift 54
+	tIDENTIFIER  shift 55
+	tSTRING  shift 56
+	tNULL  shift 57
+	tUSE  shift 58
+	tDO  shift 59
+	tCELL  shift 60
+	tOPEN  shift 61
+	tNOT  shift 62
+	tPLUS  shift 63
+	tMINUS  shift 64
+	.  error
+
+	expr  goto 134
+	lval  goto 66
+	str_chain  goto 67
+
+
+state 115
+	inst : tINPUT .  (59)
+
+	.  reduce 59
+
+
+116: shift/reduce conflict (shift 135, reduce 53) on tINTEGER
+state 116
+	inst : tSTOP . tINTEGER  (51)
+	inst : tSTOP .  (53)
+
+	tINTEGER  shift 135
+	tDOUBLE  reduce 53
+	tIDENTIFIER  reduce 53
+	tSTRING  reduce 53
+	tIF  reduce 53
+	tNULL  reduce 53
+	tUSE  reduce 53
+	tDO  reduce 53
+	tRETURN  reduce 53
+	tASSIGN  reduce 53
+	tCELL  reduce 53
+	tINPUT  reduce 53
+	tSTOP  reduce 53
+	tAGAIN  reduce 53
+	tPOST  reduce 53
+	tTWEET  reduce 53
+	tSWEEPING  reduce 53
+	tOUTSIDE  reduce 53
+	tOPEN  reduce 53
+	tNOT  reduce 53
+	tPLUS  reduce 53
+	tMINUS  reduce 53
+
+
+117: shift/reduce conflict (shift 136, reduce 52) on tINTEGER
+state 117
+	inst : tAGAIN . tINTEGER  (50)
+	inst : tAGAIN .  (52)
+
+	tINTEGER  shift 136
+	tDOUBLE  reduce 52
+	tIDENTIFIER  reduce 52
+	tSTRING  reduce 52
+	tIF  reduce 52
+	tNULL  reduce 52
+	tUSE  reduce 52
+	tDO  reduce 52
+	tRETURN  reduce 52
+	tASSIGN  reduce 52
+	tCELL  reduce 52
+	tINPUT  reduce 52
+	tSTOP  reduce 52
+	tAGAIN  reduce 52
+	tPOST  reduce 52
+	tTWEET  reduce 52
+	tSWEEPING  reduce 52
+	tOUTSIDE  reduce 52
+	tOPEN  reduce 52
+	tNOT  reduce 52
+	tPLUS  reduce 52
+	tMINUS  reduce 52
+
+
+state 118
+	inst : tPOST . expr  (49)
+
+	tINTEGER  shift 53
+	tDOUBLE  shift 54
+	tIDENTIFIER  shift 55
+	tSTRING  shift 56
+	tNULL  shift 57
+	tUSE  shift 58
+	tDO  shift 59
+	tCELL  shift 60
+	tOPEN  shift 61
+	tNOT  shift 62
+	tPLUS  shift 63
+	tMINUS  shift 64
+	.  error
+
+	expr  goto 137
+	lval  goto 66
+	str_chain  goto 67
+
+
+state 119
+	inst : tTWEET . expr  (48)
+
+	tINTEGER  shift 53
+	tDOUBLE  shift 54
+	tIDENTIFIER  shift 55
+	tSTRING  shift 56
+	tNULL  shift 57
+	tUSE  shift 58
+	tDO  shift 59
+	tCELL  shift 60
+	tOPEN  shift 61
+	tNOT  shift 62
+	tPLUS  shift 63
+	tMINUS  shift 64
+	.  error
+
+	expr  goto 138
+	lval  goto 66
+	str_chain  goto 67
+
+
+state 120
+	inst : tSWEEPING . lval tFROM expr tTO expr sweepBy tDO indent_list  (58)
+
+	tIDENTIFIER  shift 55
+	tCELL  shift 60
+	.  error
+
+	lval  goto 139
+
+
+state 121
+	list : inst .  (44)
+
+	.  reduce 44
+
+
+state 122
+	blockStart : tINSIDE list . tOUTSIDE  (41)
+	list : list . inst  (45)
+
+	tINTEGER  shift 53
+	tDOUBLE  shift 54
+	tIDENTIFIER  shift 55
+	tSTRING  shift 56
+	tIF  shift 111
+	tNULL  shift 57
+	tUSE  shift 58
+	tDO  shift 59
+	tRETURN  shift 113
+	tASSIGN  shift 114
+	tCELL  shift 60
+	tINPUT  shift 115
+	tSTOP  shift 116
+	tAGAIN  shift 117
+	tPOST  shift 118
+	tTWEET  shift 119
+	tSWEEPING  shift 120
+	tOUTSIDE  shift 140
+	tOPEN  shift 61
+	tNOT  shift 62
+	tPLUS  shift 63
+	tMINUS  shift 64
+	.  error
+
+	inst  goto 141
+	expr  goto 124
+	lval  goto 66
+	str_chain  goto 67
+
+
+state 123
+	blockStart : tINSIDE var_chain . list tOUTSIDE  (39)
+	blockStart : tINSIDE var_chain . tOUTSIDE  (40)
+	var_chain : var_chain . var_decl  (43)
+
+	tINTEGER  shift 53
+	tDOUBLE  shift 54
+	tIDENTIFIER  shift 55
+	tSTRING  shift 56
+	tIF  shift 111
+	tSMALL  shift 1
+	tHUGE  shift 2
+	tNEWS  shift 3
+	tFAKE  shift 4
+	tNULL  shift 57
+	tUSE  shift 112
+	tPUBLIC  shift 6
+	tDO  shift 59
+	tRETURN  shift 113
+	tASSIGN  shift 114
+	tCELL  shift 60
+	tINPUT  shift 115
+	tSTOP  shift 116
+	tAGAIN  shift 117
+	tPOST  shift 118
+	tTWEET  shift 119
+	tSWEEPING  shift 120
+	tOUTSIDE  shift 142
+	tOPEN  shift 61
+	tNOT  shift 62
+	tPLUS  shift 63
+	tMINUS  shift 64
+	.  error
+
+	inst  goto 121
+	list  goto 143
+	expr  goto 124
+	lval  goto 66
+	type  goto 125
+	small  goto 13
+	huge  goto 14
+	news  goto 15
+	access  goto 126
+	var_decl  goto 144
+	str_chain  goto 67
+
+
+124: shift/reduce conflict (shift 87, reduce 46) on tPLUS
+124: shift/reduce conflict (shift 88, reduce 46) on tMINUS
+state 124
+	inst : expr .  (46)
+	expr : expr . tBELOW expr  (75)
+	expr : expr . tABOVE expr  (76)
+	expr : expr . tEQUALS expr  (77)
+	expr : expr . tAND expr  (78)
+	expr : expr . tOR expr  (79)
+	expr : expr . tTIMES expr  (80)
+	expr : expr . tOVER expr  (81)
+	expr : expr . tMODULUS expr  (82)
+	expr : expr . tPLUS expr  (83)
+	expr : expr . tMINUS expr  (84)
+	expr : expr . tOBJECTS  (91)
+
+	tOBJECTS  shift 80
+	tAND  shift 82
+	tOR  shift 83
+	tABOVE  shift 84
+	tBELOW  shift 85
+	tEQUALS  shift 86
+	tPLUS  shift 87
+	tMINUS  shift 88
+	tTIMES  shift 89
+	tOVER  shift 90
+	tMODULUS  shift 91
+	tINTEGER  reduce 46
+	tDOUBLE  reduce 46
+	tIDENTIFIER  reduce 46
+	tSTRING  reduce 46
+	tIF  reduce 46
+	tNULL  reduce 46
+	tUSE  reduce 46
+	tDO  reduce 46
+	tRETURN  reduce 46
+	tASSIGN  reduce 46
+	tCELL  reduce 46
+	tINPUT  reduce 46
+	tSTOP  reduce 46
+	tAGAIN  reduce 46
+	tPOST  reduce 46
+	tTWEET  reduce 46
+	tSWEEPING  reduce 46
+	tOUTSIDE  reduce 46
+	tOPEN  reduce 46
+	tNOT  reduce 46
+
+
+state 125
+	var_decl : type . tIDENTIFIER initially  (10)
+
+	tIDENTIFIER  shift 29
+	.  error
+
+
+state 126
+	var_decl : access . type tIDENTIFIER initially  (9)
+
+	tSMALL  shift 1
+	tHUGE  shift 2
+	tNEWS  shift 3
+	tFAKE  shift 4
+	.  error
+
+	type  goto 145
+	small  goto 13
+	huge  goto 14
+	news  goto 15
+
+
+state 127
+	var_chain : var_decl .  (42)
+
+	.  reduce 42
+
+
+state 128
+	expr : tUSE expr_chain tFOR tIDENTIFIER .  (89)
+
+	.  reduce 89
+
+
+state 129
+	expr_chain : expr_chain tCOMMA expr .  (67)
+	expr : expr . tBELOW expr  (75)
+	expr : expr . tABOVE expr  (76)
+	expr : expr . tEQUALS expr  (77)
+	expr : expr . tAND expr  (78)
+	expr : expr . tOR expr  (79)
+	expr : expr . tTIMES expr  (80)
+	expr : expr . tOVER expr  (81)
+	expr : expr . tMODULUS expr  (82)
+	expr : expr . tPLUS expr  (83)
+	expr : expr . tMINUS expr  (84)
+	expr : expr . tOBJECTS  (91)
+
+	tOBJECTS  shift 80
+	tAND  shift 82
+	tOR  shift 83
+	tABOVE  shift 84
+	tBELOW  shift 85
+	tEQUALS  shift 86
+	tPLUS  shift 87
+	tMINUS  shift 88
+	tTIMES  shift 89
+	tOVER  shift 90
+	tMODULUS  shift 91
+	tFOR  reduce 67
+	tCOMMA  reduce 67
+
+
+state 130
+	lval : tCELL expr tAT tOPEN . expr tCLOSE  (70)
+
+	tINTEGER  shift 53
+	tDOUBLE  shift 54
+	tIDENTIFIER  shift 55
+	tSTRING  shift 56
+	tNULL  shift 57
+	tUSE  shift 58
+	tDO  shift 59
+	tCELL  shift 60
+	tOPEN  shift 61
+	tNOT  shift 62
+	tPLUS  shift 63
+	tMINUS  shift 64
+	.  error
+
+	expr  goto 146
+	lval  goto 66
+	str_chain  goto 67
+
+
+state 131
+	lval : tCELL expr tAT lval .  (69)
+
+	.  reduce 69
+
+
+state 132
+	inst : tIF expr . tTHEN indent_list  (55)
+	inst : tIF expr . tTHEN indent_list tELSE indent_list  (56)
+	inst : tIF expr . tTHEN indent_list tELSIF elif  (57)
+	expr : expr . tBELOW expr  (75)
+	expr : expr . tABOVE expr  (76)
+	expr : expr . tEQUALS expr  (77)
+	expr : expr . tAND expr  (78)
+	expr : expr . tOR expr  (79)
+	expr : expr . tTIMES expr  (80)
+	expr : expr . tOVER expr  (81)
+	expr : expr . tMODULUS expr  (82)
+	expr : expr . tPLUS expr  (83)
+	expr : expr . tMINUS expr  (84)
+	expr : expr . tOBJECTS  (91)
+
+	tTHEN  shift 147
+	tOBJECTS  shift 80
+	tAND  shift 82
+	tOR  shift 83
+	tABOVE  shift 84
+	tBELOW  shift 85
+	tEQUALS  shift 86
+	tPLUS  shift 87
+	tMINUS  shift 88
+	tTIMES  shift 89
+	tOVER  shift 90
+	tMODULUS  shift 91
+	.  error
+
+
+133: shift/reduce conflict (shift 87, reduce 54) on tPLUS
+133: shift/reduce conflict (shift 88, reduce 54) on tMINUS
+state 133
+	inst : tRETURN expr .  (54)
+	expr : expr . tBELOW expr  (75)
+	expr : expr . tABOVE expr  (76)
+	expr : expr . tEQUALS expr  (77)
+	expr : expr . tAND expr  (78)
+	expr : expr . tOR expr  (79)
+	expr : expr . tTIMES expr  (80)
+	expr : expr . tOVER expr  (81)
+	expr : expr . tMODULUS expr  (82)
+	expr : expr . tPLUS expr  (83)
+	expr : expr . tMINUS expr  (84)
+	expr : expr . tOBJECTS  (91)
+
+	tOBJECTS  shift 80
+	tAND  shift 82
+	tOR  shift 83
+	tABOVE  shift 84
+	tBELOW  shift 85
+	tEQUALS  shift 86
+	tPLUS  shift 87
+	tMINUS  shift 88
+	tTIMES  shift 89
+	tOVER  shift 90
+	tMODULUS  shift 91
+	tINTEGER  reduce 54
+	tDOUBLE  reduce 54
+	tIDENTIFIER  reduce 54
+	tSTRING  reduce 54
+	tIF  reduce 54
+	tNULL  reduce 54
+	tUSE  reduce 54
+	tDO  reduce 54
+	tRETURN  reduce 54
+	tASSIGN  reduce 54
+	tCELL  reduce 54
+	tINPUT  reduce 54
+	tSTOP  reduce 54
+	tAGAIN  reduce 54
+	tPOST  reduce 54
+	tTWEET  reduce 54
+	tSWEEPING  reduce 54
+	tOUTSIDE  reduce 54
+	tOPEN  reduce 54
+	tNOT  reduce 54
+
+
+state 134
+	inst : tASSIGN expr . tTO lval  (47)
+	expr : expr . tBELOW expr  (75)
+	expr : expr . tABOVE expr  (76)
+	expr : expr . tEQUALS expr  (77)
+	expr : expr . tAND expr  (78)
+	expr : expr . tOR expr  (79)
+	expr : expr . tTIMES expr  (80)
+	expr : expr . tOVER expr  (81)
+	expr : expr . tMODULUS expr  (82)
+	expr : expr . tPLUS expr  (83)
+	expr : expr . tMINUS expr  (84)
+	expr : expr . tOBJECTS  (91)
+
+	tOBJECTS  shift 80
+	tTO  shift 148
+	tAND  shift 82
+	tOR  shift 83
+	tABOVE  shift 84
+	tBELOW  shift 85
+	tEQUALS  shift 86
+	tPLUS  shift 87
+	tMINUS  shift 88
+	tTIMES  shift 89
+	tOVER  shift 90
+	tMODULUS  shift 91
+	.  error
+
+
+state 135
+	inst : tSTOP tINTEGER .  (51)
+
+	.  reduce 51
+
+
+state 136
+	inst : tAGAIN tINTEGER .  (50)
+
+	.  reduce 50
+
+
+137: shift/reduce conflict (shift 87, reduce 49) on tPLUS
+137: shift/reduce conflict (shift 88, reduce 49) on tMINUS
+state 137
+	inst : tPOST expr .  (49)
+	expr : expr . tBELOW expr  (75)
+	expr : expr . tABOVE expr  (76)
+	expr : expr . tEQUALS expr  (77)
+	expr : expr . tAND expr  (78)
+	expr : expr . tOR expr  (79)
+	expr : expr . tTIMES expr  (80)
+	expr : expr . tOVER expr  (81)
+	expr : expr . tMODULUS expr  (82)
+	expr : expr . tPLUS expr  (83)
+	expr : expr . tMINUS expr  (84)
+	expr : expr . tOBJECTS  (91)
+
+	tOBJECTS  shift 80
+	tAND  shift 82
+	tOR  shift 83
+	tABOVE  shift 84
+	tBELOW  shift 85
+	tEQUALS  shift 86
+	tPLUS  shift 87
+	tMINUS  shift 88
+	tTIMES  shift 89
+	tOVER  shift 90
+	tMODULUS  shift 91
+	tINTEGER  reduce 49
+	tDOUBLE  reduce 49
+	tIDENTIFIER  reduce 49
+	tSTRING  reduce 49
+	tIF  reduce 49
+	tNULL  reduce 49
+	tUSE  reduce 49
+	tDO  reduce 49
+	tRETURN  reduce 49
+	tASSIGN  reduce 49
+	tCELL  reduce 49
+	tINPUT  reduce 49
+	tSTOP  reduce 49
+	tAGAIN  reduce 49
+	tPOST  reduce 49
+	tTWEET  reduce 49
+	tSWEEPING  reduce 49
+	tOUTSIDE  reduce 49
+	tOPEN  reduce 49
+	tNOT  reduce 49
+
+
+138: shift/reduce conflict (shift 87, reduce 48) on tPLUS
+138: shift/reduce conflict (shift 88, reduce 48) on tMINUS
+state 138
+	inst : tTWEET expr .  (48)
+	expr : expr . tBELOW expr  (75)
+	expr : expr . tABOVE expr  (76)
+	expr : expr . tEQUALS expr  (77)
+	expr : expr . tAND expr  (78)
+	expr : expr . tOR expr  (79)
+	expr : expr . tTIMES expr  (80)
+	expr : expr . tOVER expr  (81)
+	expr : expr . tMODULUS expr  (82)
+	expr : expr . tPLUS expr  (83)
+	expr : expr . tMINUS expr  (84)
+	expr : expr . tOBJECTS  (91)
+
+	tOBJECTS  shift 80
+	tAND  shift 82
+	tOR  shift 83
+	tABOVE  shift 84
+	tBELOW  shift 85
+	tEQUALS  shift 86
+	tPLUS  shift 87
+	tMINUS  shift 88
+	tTIMES  shift 89
+	tOVER  shift 90
+	tMODULUS  shift 91
+	tINTEGER  reduce 48
+	tDOUBLE  reduce 48
+	tIDENTIFIER  reduce 48
+	tSTRING  reduce 48
+	tIF  reduce 48
+	tNULL  reduce 48
+	tUSE  reduce 48
+	tDO  reduce 48
+	tRETURN  reduce 48
+	tASSIGN  reduce 48
+	tCELL  reduce 48
+	tINPUT  reduce 48
+	tSTOP  reduce 48
+	tAGAIN  reduce 48
+	tPOST  reduce 48
+	tTWEET  reduce 48
+	tSWEEPING  reduce 48
+	tOUTSIDE  reduce 48
+	tOPEN  reduce 48
+	tNOT  reduce 48
+
+
+state 139
+	inst : tSWEEPING lval . tFROM expr tTO expr sweepBy tDO indent_list  (58)
+
+	tFROM  shift 149
+	.  error
+
+
+state 140
+	blockStart : tINSIDE list tOUTSIDE .  (41)
+
+	.  reduce 41
+
+
+state 141
+	list : list inst .  (45)
+
+	.  reduce 45
+
+
+state 142
+	blockStart : tINSIDE var_chain tOUTSIDE .  (40)
+
+	.  reduce 40
+
+
+state 143
+	blockStart : tINSIDE var_chain list . tOUTSIDE  (39)
+	list : list . inst  (45)
+
+	tINTEGER  shift 53
+	tDOUBLE  shift 54
+	tIDENTIFIER  shift 55
+	tSTRING  shift 56
+	tIF  shift 111
+	tNULL  shift 57
+	tUSE  shift 58
+	tDO  shift 59
+	tRETURN  shift 113
+	tASSIGN  shift 114
+	tCELL  shift 60
+	tINPUT  shift 115
+	tSTOP  shift 116
+	tAGAIN  shift 117
+	tPOST  shift 118
+	tTWEET  shift 119
+	tSWEEPING  shift 120
+	tOUTSIDE  shift 150
+	tOPEN  shift 61
+	tNOT  shift 62
+	tPLUS  shift 63
+	tMINUS  shift 64
+	.  error
+
+	inst  goto 141
+	expr  goto 124
+	lval  goto 66
+	str_chain  goto 67
+
+
+state 144
+	var_chain : var_chain var_decl .  (43)
+
+	.  reduce 43
+
+
+state 145
+	var_decl : access type . tIDENTIFIER initially  (9)
+
+	tIDENTIFIER  shift 42
+	.  error
+
+
+state 146
+	lval : tCELL expr tAT tOPEN expr . tCLOSE  (70)
+	expr : expr . tBELOW expr  (75)
+	expr : expr . tABOVE expr  (76)
+	expr : expr . tEQUALS expr  (77)
+	expr : expr . tAND expr  (78)
+	expr : expr . tOR expr  (79)
+	expr : expr . tTIMES expr  (80)
+	expr : expr . tOVER expr  (81)
+	expr : expr . tMODULUS expr  (82)
+	expr : expr . tPLUS expr  (83)
+	expr : expr . tMINUS expr  (84)
+	expr : expr . tOBJECTS  (91)
+
+	tOBJECTS  shift 80
+	tCLOSE  shift 151
+	tAND  shift 82
+	tOR  shift 83
+	tABOVE  shift 84
+	tBELOW  shift 85
+	tEQUALS  shift 86
+	tPLUS  shift 87
+	tMINUS  shift 88
+	tTIMES  shift 89
+	tOVER  shift 90
+	tMODULUS  shift 91
+	.  error
+
+
+state 147
+	inst : tIF expr tTHEN . indent_list  (55)
+	inst : tIF expr tTHEN . indent_list tELSE indent_list  (56)
+	inst : tIF expr tTHEN . indent_list tELSIF elif  (57)
+
+	tINSIDE  shift 152
+	.  error
+
+	indent_list  goto 153
+
+
+state 148
+	inst : tASSIGN expr tTO . lval  (47)
+
+	tIDENTIFIER  shift 55
+	tCELL  shift 60
+	.  error
+
+	lval  goto 154
+
+
+state 149
+	inst : tSWEEPING lval tFROM . expr tTO expr sweepBy tDO indent_list  (58)
+
+	tINTEGER  shift 53
+	tDOUBLE  shift 54
+	tIDENTIFIER  shift 55
+	tSTRING  shift 56
+	tNULL  shift 57
+	tUSE  shift 58
+	tDO  shift 59
+	tCELL  shift 60
+	tOPEN  shift 61
+	tNOT  shift 62
+	tPLUS  shift 63
+	tMINUS  shift 64
+	.  error
+
+	expr  goto 155
+	lval  goto 66
+	str_chain  goto 67
+
+
+state 150
+	blockStart : tINSIDE var_chain list tOUTSIDE .  (39)
+
+	.  reduce 39
+
+
+state 151
+	lval : tCELL expr tAT tOPEN expr tCLOSE .  (70)
+
+	.  reduce 70
+
+
+state 152
+	indent_list : tINSIDE . list tOUTSIDE  (60)
+
+	tINTEGER  shift 53
+	tDOUBLE  shift 54
+	tIDENTIFIER  shift 55
+	tSTRING  shift 56
+	tIF  shift 111
+	tNULL  shift 57
+	tUSE  shift 58
+	tDO  shift 59
+	tRETURN  shift 113
+	tASSIGN  shift 114
+	tCELL  shift 60
+	tINPUT  shift 115
+	tSTOP  shift 116
+	tAGAIN  shift 117
+	tPOST  shift 118
+	tTWEET  shift 119
+	tSWEEPING  shift 120
+	tOPEN  shift 61
+	tNOT  shift 62
+	tPLUS  shift 63
+	tMINUS  shift 64
+	.  error
+
+	inst  goto 121
+	list  goto 156
+	expr  goto 124
+	lval  goto 66
+	str_chain  goto 67
+
+
+state 153
+	inst : tIF expr tTHEN indent_list .  (55)
+	inst : tIF expr tTHEN indent_list . tELSE indent_list  (56)
+	inst : tIF expr tTHEN indent_list . tELSIF elif  (57)
+
+	tELSIF  shift 157
+	tELSE  shift 158
+	tINTEGER  reduce 55
+	tDOUBLE  reduce 55
+	tIDENTIFIER  reduce 55
+	tSTRING  reduce 55
+	tIF  reduce 55
+	tNULL  reduce 55
+	tUSE  reduce 55
+	tDO  reduce 55
+	tRETURN  reduce 55
+	tASSIGN  reduce 55
+	tCELL  reduce 55
+	tINPUT  reduce 55
+	tSTOP  reduce 55
+	tAGAIN  reduce 55
+	tPOST  reduce 55
+	tTWEET  reduce 55
+	tSWEEPING  reduce 55
+	tOUTSIDE  reduce 55
+	tOPEN  reduce 55
+	tNOT  reduce 55
+	tPLUS  reduce 55
+	tMINUS  reduce 55
+
+
+state 154
+	inst : tASSIGN expr tTO lval .  (47)
+
+	.  reduce 47
+
+
+state 155
+	inst : tSWEEPING lval tFROM expr . tTO expr sweepBy tDO indent_list  (58)
+	expr : expr . tBELOW expr  (75)
+	expr : expr . tABOVE expr  (76)
+	expr : expr . tEQUALS expr  (77)
+	expr : expr . tAND expr  (78)
+	expr : expr . tOR expr  (79)
+	expr : expr . tTIMES expr  (80)
+	expr : expr . tOVER expr  (81)
+	expr : expr . tMODULUS expr  (82)
+	expr : expr . tPLUS expr  (83)
+	expr : expr . tMINUS expr  (84)
+	expr : expr . tOBJECTS  (91)
+
+	tOBJECTS  shift 80
+	tTO  shift 159
+	tAND  shift 82
+	tOR  shift 83
+	tABOVE  shift 84
+	tBELOW  shift 85
+	tEQUALS  shift 86
+	tPLUS  shift 87
+	tMINUS  shift 88
+	tTIMES  shift 89
+	tOVER  shift 90
+	tMODULUS  shift 91
+	.  error
+
+
+state 156
+	list : list . inst  (45)
+	indent_list : tINSIDE list . tOUTSIDE  (60)
+
+	tINTEGER  shift 53
+	tDOUBLE  shift 54
+	tIDENTIFIER  shift 55
+	tSTRING  shift 56
+	tIF  shift 111
+	tNULL  shift 57
+	tUSE  shift 58
+	tDO  shift 59
+	tRETURN  shift 113
+	tASSIGN  shift 114
+	tCELL  shift 60
+	tINPUT  shift 115
+	tSTOP  shift 116
+	tAGAIN  shift 117
+	tPOST  shift 118
+	tTWEET  shift 119
+	tSWEEPING  shift 120
+	tOUTSIDE  shift 160
+	tOPEN  shift 61
+	tNOT  shift 62
+	tPLUS  shift 63
+	tMINUS  shift 64
+	.  error
+
+	inst  goto 141
+	expr  goto 124
+	lval  goto 66
+	str_chain  goto 67
+
+
+state 157
+	inst : tIF expr tTHEN indent_list tELSIF . elif  (57)
+
+	tINTEGER  shift 53
+	tDOUBLE  shift 54
+	tIDENTIFIER  shift 55
+	tSTRING  shift 56
+	tNULL  shift 57
+	tUSE  shift 58
+	tDO  shift 59
+	tCELL  shift 60
+	tOPEN  shift 61
+	tNOT  shift 62
+	tPLUS  shift 63
+	tMINUS  shift 64
+	.  error
+
+	elif  goto 161
+	expr  goto 162
+	lval  goto 66
+	str_chain  goto 67
+
+
+state 158
+	inst : tIF expr tTHEN indent_list tELSE . indent_list  (56)
+
+	tINSIDE  shift 152
+	.  error
+
+	indent_list  goto 163
+
+
+state 159
+	inst : tSWEEPING lval tFROM expr tTO . expr sweepBy tDO indent_list  (58)
+
+	tINTEGER  shift 53
+	tDOUBLE  shift 54
+	tIDENTIFIER  shift 55
+	tSTRING  shift 56
+	tNULL  shift 57
+	tUSE  shift 58
+	tDO  shift 59
+	tCELL  shift 60
+	tOPEN  shift 61
+	tNOT  shift 62
+	tPLUS  shift 63
+	tMINUS  shift 64
+	.  error
+
+	expr  goto 164
+	lval  goto 66
+	str_chain  goto 67
+
+
+state 160
+	indent_list : tINSIDE list tOUTSIDE .  (60)
+
+	.  reduce 60
+
+
+state 161
+	inst : tIF expr tTHEN indent_list tELSIF elif .  (57)
+
+	.  reduce 57
+
+
+state 162
+	elif : expr . tTHEN indent_list tELSIF elif  (61)
+	elif : expr . tTHEN indent_list  (62)
+	elif : expr . tTHEN indent_list tELSE indent_list  (63)
+	expr : expr . tBELOW expr  (75)
+	expr : expr . tABOVE expr  (76)
+	expr : expr . tEQUALS expr  (77)
+	expr : expr . tAND expr  (78)
+	expr : expr . tOR expr  (79)
+	expr : expr . tTIMES expr  (80)
+	expr : expr . tOVER expr  (81)
+	expr : expr . tMODULUS expr  (82)
+	expr : expr . tPLUS expr  (83)
+	expr : expr . tMINUS expr  (84)
+	expr : expr . tOBJECTS  (91)
+
+	tTHEN  shift 165
+	tOBJECTS  shift 80
+	tAND  shift 82
+	tOR  shift 83
+	tABOVE  shift 84
+	tBELOW  shift 85
+	tEQUALS  shift 86
+	tPLUS  shift 87
+	tMINUS  shift 88
+	tTIMES  shift 89
+	tOVER  shift 90
+	tMODULUS  shift 91
+	.  error
+
+
+state 163
+	inst : tIF expr tTHEN indent_list tELSE indent_list .  (56)
+
+	.  reduce 56
+
+
+state 164
+	inst : tSWEEPING lval tFROM expr tTO expr . sweepBy tDO indent_list  (58)
+	expr : expr . tBELOW expr  (75)
+	expr : expr . tABOVE expr  (76)
+	expr : expr . tEQUALS expr  (77)
+	expr : expr . tAND expr  (78)
+	expr : expr . tOR expr  (79)
+	expr : expr . tTIMES expr  (80)
+	expr : expr . tOVER expr  (81)
+	expr : expr . tMODULUS expr  (82)
+	expr : expr . tPLUS expr  (83)
+	expr : expr . tMINUS expr  (84)
+	expr : expr . tOBJECTS  (91)
+	sweepBy : .  (65)
+
+	tOBJECTS  shift 80
+	tBY  shift 166
+	tAND  shift 82
+	tOR  shift 83
+	tABOVE  shift 84
+	tBELOW  shift 85
+	tEQUALS  shift 86
+	tPLUS  shift 87
+	tMINUS  shift 88
+	tTIMES  shift 89
+	tOVER  shift 90
+	tMODULUS  shift 91
+	tDO  reduce 65
+
+	sweepBy  goto 167
+
+
+state 165
+	elif : expr tTHEN . indent_list tELSIF elif  (61)
+	elif : expr tTHEN . indent_list  (62)
+	elif : expr tTHEN . indent_list tELSE indent_list  (63)
+
+	tINSIDE  shift 152
+	.  error
+
+	indent_list  goto 168
+
+
+state 166
+	sweepBy : tBY . expr  (64)
+
+	tINTEGER  shift 53
+	tDOUBLE  shift 54
+	tIDENTIFIER  shift 55
+	tSTRING  shift 56
+	tNULL  shift 57
+	tUSE  shift 58
+	tDO  shift 59
+	tCELL  shift 60
+	tOPEN  shift 61
+	tNOT  shift 62
+	tPLUS  shift 63
+	tMINUS  shift 64
+	.  error
+
+	expr  goto 169
+	lval  goto 66
+	str_chain  goto 67
+
+
+state 167
+	inst : tSWEEPING lval tFROM expr tTO expr sweepBy . tDO indent_list  (58)
+
+	tDO  shift 170
+	.  error
+
+
+state 168
+	elif : expr tTHEN indent_list . tELSIF elif  (61)
+	elif : expr tTHEN indent_list .  (62)
+	elif : expr tTHEN indent_list . tELSE indent_list  (63)
+
+	tELSIF  shift 171
+	tELSE  shift 172
+	tINTEGER  reduce 62
+	tDOUBLE  reduce 62
+	tIDENTIFIER  reduce 62
+	tSTRING  reduce 62
+	tIF  reduce 62
+	tNULL  reduce 62
+	tUSE  reduce 62
+	tDO  reduce 62
+	tRETURN  reduce 62
+	tASSIGN  reduce 62
+	tCELL  reduce 62
+	tINPUT  reduce 62
+	tSTOP  reduce 62
+	tAGAIN  reduce 62
+	tPOST  reduce 62
+	tTWEET  reduce 62
+	tSWEEPING  reduce 62
+	tOUTSIDE  reduce 62
+	tOPEN  reduce 62
+	tNOT  reduce 62
+	tPLUS  reduce 62
+	tMINUS  reduce 62
+
+
+state 169
+	sweepBy : tBY expr .  (64)
+	expr : expr . tBELOW expr  (75)
+	expr : expr . tABOVE expr  (76)
+	expr : expr . tEQUALS expr  (77)
+	expr : expr . tAND expr  (78)
+	expr : expr . tOR expr  (79)
+	expr : expr . tTIMES expr  (80)
+	expr : expr . tOVER expr  (81)
+	expr : expr . tMODULUS expr  (82)
+	expr : expr . tPLUS expr  (83)
+	expr : expr . tMINUS expr  (84)
+	expr : expr . tOBJECTS  (91)
+
+	tOBJECTS  shift 80
+	tAND  shift 82
+	tOR  shift 83
+	tABOVE  shift 84
+	tBELOW  shift 85
+	tEQUALS  shift 86
+	tPLUS  shift 87
+	tMINUS  shift 88
+	tTIMES  shift 89
+	tOVER  shift 90
+	tMODULUS  shift 91
+	tDO  reduce 64
+
+
+state 170
+	inst : tSWEEPING lval tFROM expr tTO expr sweepBy tDO . indent_list  (58)
+
+	tINSIDE  shift 152
+	.  error
+
+	indent_list  goto 173
+
+
+state 171
+	elif : expr tTHEN indent_list tELSIF . elif  (61)
+
+	tINTEGER  shift 53
+	tDOUBLE  shift 54
+	tIDENTIFIER  shift 55
+	tSTRING  shift 56
+	tNULL  shift 57
+	tUSE  shift 58
+	tDO  shift 59
+	tCELL  shift 60
+	tOPEN  shift 61
+	tNOT  shift 62
+	tPLUS  shift 63
+	tMINUS  shift 64
+	.  error
+
+	elif  goto 174
+	expr  goto 162
+	lval  goto 66
+	str_chain  goto 67
+
+
+state 172
+	elif : expr tTHEN indent_list tELSE . indent_list  (63)
+
+	tINSIDE  shift 152
+	.  error
+
+	indent_list  goto 175
+
+
+state 173
+	inst : tSWEEPING lval tFROM expr tTO expr sweepBy tDO indent_list .  (58)
+
+	.  reduce 58
+
+
+state 174
+	elif : expr tTHEN indent_list tELSIF elif .  (61)
+
+	.  reduce 61
+
+
+state 175
+	elif : expr tTHEN indent_list tELSE indent_list .  (63)
+
+	.  reduce 63
+
+
+State 0 contains 8 shift/reduce conflicts.
+State 29 contains 1 shift/reduce conflict.
+State 42 contains 1 shift/reduce conflict.
+State 67 contains 1 shift/reduce conflict.
+State 116 contains 1 shift/reduce conflict.
+State 117 contains 1 shift/reduce conflict.
+State 124 contains 2 shift/reduce conflicts.
+State 133 contains 2 shift/reduce conflicts.
+State 137 contains 2 shift/reduce conflicts.
+State 138 contains 2 shift/reduce conflicts.
+
+
+59 terminals, 30 nonterminals
+96 grammar rules, 176 states
